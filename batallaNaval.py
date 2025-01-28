@@ -1,17 +1,18 @@
 class Mar:
     def __init__(self,):
-        self.tablero = [["🌊" for i in range(10)] for i in range(10)]
+        self.tablero = [[" " for i in range(10)] for i in range(10)]
     def imprimir_mar(self):
         for fila in self.tablero:
             print(" ".join(fila)) # Imprime cada fila del tablero y separa cada elemento con un espacio.
 
 
 class Ship:
-    def __init__(self, nombre, tamaño = 3):
+    def __init__(self, nombre, tamaño):
         self.nombre = nombre
         self.tamaño = tamaño
         self.posicion = []
         self.hits = 0
+        self.inicial = nombre[0].upper()
 
     def colocar_barco(self, mar, start_row, start_col, direccion):
         #Verifica si el barco cabe en el tablero y si la posición está disponible:
@@ -20,7 +21,7 @@ class Ship:
                 print("El barco no cabe en el tablero")
                 return False
             for col in range(start_col, start_col + self.tamaño):
-                if mar.tablero[start_row][col] != "🌊":
+                if mar.tablero[start_row][col] != " ":
                     print("No se puede colocar el barco aquí")
                     return False
                 
@@ -29,16 +30,30 @@ class Ship:
                 print("El barco no cabe en el tablero")
                 return False
             for row in range(start_row, start_row + self.tamaño):  
-                if mar.tablero [start_col][row] != "🌊":
+                if mar.tablero [row][start_col] != " ":
                     print("No se puede colocar el barco aquí")
                     return False
+        
+        #Coloca el barco en el tablero:
+        if direccion == "h":
+            for col in range(start_col, start_col + self.tamaño):
+                mar.tablero[start_row][col] = self.inicial
+        if direccion == "v":
+            for row in range(start_row, start_row + self.tamaño):  
+                mar.tablero [row][start_col] = self.inicial
                 
-                
-                     
+class Destructor(Ship):   
+    def __init__(self):
+        super().__init__("Destructor", 2)   
+class Submarino(Ship):
+    def __init__(self):
+        super().__init__("Submarino", 3) 
+class Acorazado(Ship):
+    def __init__(self):
+        super().__init__("Acorazado", 4)
 
-
-mar = Mar()
-mar.imprimir_mar()
+##mar = Mar()
+##mar.imprimir_mar()
 
 
 
